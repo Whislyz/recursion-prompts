@@ -67,7 +67,21 @@ var sumBelow = function(n) {
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
-var range = function(x, y) {
+var range = function(x,y){
+    var resultArray = [];
+    if ( Math.abs( x - y) <= 1) {
+        return [];
+    };
+    if (x<y){
+        resultArray.push(x+1);
+        return resultArray.concat(range(x+1,y));
+    };
+
+    if (x>y) {
+        resultArray.push(x-1);
+        return resultArray.concat(range(x-1,y));
+    }
+    
 };
 
 // 7. Compute the exponent of a number.
@@ -76,6 +90,26 @@ var range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+	if (exp === 0 || base === 1 ) {
+		return 1;
+	};
+
+	if (exp === 1) {
+		return base;
+	}
+
+	if (base === 0) {
+		return 0;
+	};
+
+	if (exp > 1) {
+		return base * (exponent(base, exp-1));
+	};
+
+	if (exp < 0) {
+		return 1/base * (exponent(base, exp+1));
+	}
+
 };
 
 // 8. Determine if a number is a power of two.
@@ -83,14 +117,19 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+	return ( n ===1 ) ? true : ( n < 1 ? false : powerOfTwo(n/2));
 };
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+	return string.length === 0 ? '' : string[string.length-1] + reverse(string.slice(0, string.length-1));
 };
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+	string = string.toLowerCase().replace(/[^a-z0-9]/g, '');
+	return string.length <= 1 ? true : (string[0] !== string[string.length-1] ? false : palindrome(string.slice(1,-1)))
+
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -99,16 +138,77 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+	if (y < 0 ) {
+		return modulo (x, -y)
+	};	
+
+	if (y === 0 ) {
+		return NaN;
+	};
+
+	if (x === 0 ) {
+		return 0;
+	}
+
+	if (x<0) {
+		if (x + y <= 0) {
+			return modulo(x+y, y)
+		} else {
+			return x;
+		}; 
+	};	
+
+	if (x > 0 ) {		
+		if (x < y) {
+			return x;
+		};
+		if (x >= y) {
+			return modulo(x-y, y)
+		};
+	};
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
 var multiply = function(x, y) {
+
+	if (x === 0 || y === 0) {
+		return 0
+	};
+
+	if (y === 1) {
+		return x;
+	};
+
+	if (x === 1) {
+		return y;
+	};
+
+	if (x < 0 && y < 0) {
+		return multiply(-x, -y);
+	}
+
+	if (y < 0 ) {
+		return multiply(y,x);
+	}
+
+	if (y > 0) {
+		return x + (multiply(x, y-1));
+	}
 };
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods to arrive at an approximate quotient (ignore decimal endings).
 var divide = function(x, y) {
+	if (y === 0) {
+		return NaN;
+	}
+
+	if (x === 0) {
+		return 0;
+	}
+
+
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers. The GCD of two
