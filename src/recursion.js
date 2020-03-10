@@ -208,6 +208,26 @@ var divide = function(x, y) {
 		return 0;
 	}
 
+	if ( x < 0 && y < 0 ) {
+		return divide(-x,-y);
+	};
+	if ( x < 0 ) {
+		if ( x + y > 0 ) {
+			return 0;
+		}
+		return -1 + divide(x+y, y);
+	};
+
+	if (x < y ) {
+		return 0;
+	}
+	if ( x >= y) {
+		return 1 + divide(x-y, y);
+	};
+	if ( y < 0 ) {
+		return divide(-x,-y);
+	};
+
 
 };
 
@@ -224,15 +244,43 @@ var gcd = function(x, y) {
 // compareStr('house', 'houses') // false
 // compareStr('tomato', 'tomato') // true
 var compareStr = function(str1, str2) {
+	if (str1 === '' && str2 === '') {
+		return true;
+	}
+	if (str1 === '' || str2 === '') {
+		return false;
+	}
+	if (str1.length < str2.length){
+		return compareStr(str2, str1);
+	}
+	return (str1.length === 1 && str1[0] === str2[0]) ? true : ( str1[0] !== str2[0] ? false : 
+			compareStr(str1.slice(1,str1.length), str2.slice(1,str2.length)));
 };
 
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
 var createArray = function(str) {
+	var resultArray = [];
+	if (str === '') {
+		return [];
+	};
+	if (str.length > 0) {
+		resultArray.push(str[0]);
+	}
+	return resultArray.concat(createArray(str.slice(1,str.length)));
 };
 
 // 17. Reverse the order of an array
 var reverseArr = function(array) {
+	var resultArray =[];
+	if (array.length === 0) {
+		return [];
+	}
+	if (array.length >0) {
+		resultArray.push(array[array.length-1]);
+	}
+
+	return resultArray.concat(reverseArr(array.slice(0,-1)))
 };
 
 // 18. Create a new array with a given value and length.
